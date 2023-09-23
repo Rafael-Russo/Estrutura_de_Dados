@@ -7,7 +7,6 @@ public class ExercicioPilha {
     static void exercico01() throws FileNotFoundException {
         Stack pilha = new Stack();
         File arq = new File("arquivos\\pesquisas.txt");
-        System.out.println("teste: " + arq.getAbsoluteFile());
         Scanner ler = new Scanner(arq);
 
 
