@@ -1,49 +1,52 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class NotacaoPolonesa {
     static void execute() throws FileNotFoundException{
         Queue operacao = new LinkedList<Object>();
         Stack aux = new Stack();
+        Stack mainStack = new Stack();
         File arq = new File("arquivos\\operacao.txt");
         Scanner ler = new Scanner(arq);
 
-        Object wait = null;
-        Object lerAux = null;
-        Object lerAux2 = null;
         while (ler.hasNextLine()) {
-            lerAux = ler.nextLine();
-
-            if (ler.hasNextLine()){
-                lerAux2 = ler.nextLine();
-            }
-
-            if (!isOperator(lerAux)){
-                operacao.add(lerAux);
-            }else if (lerAux.equals("*")){
-                operacao.add(lerAux2);
-                operacao.add(lerAux);
-            }else if (lerAux.equals("/")){
-                operacao.add(lerAux2);
-                operacao.add(lerAux);
-            }else {
-                wait = lerAux;
-            }
-            if (wait !=null && isOperator(lerAux2) ) {
-                operacao.add(wait);
-                wait = null;
-            }
+            operacao.add(ler.nextLine());
         }
 
-        System.out.println(operacao);
+        Object[] nextOpAux = new Object[3];
+        while (!operacao.isEmpty()){
+            Object nextOp = null;
+            if (isOperator(operacao.peek())){
+                nextOp = operacao.poll();
+            }
+            for (int i=0; i<nextOpAux.length && !operacao.isEmpty(); i++){
+                nextOpAux[i] = operacao.poll();
+            }
+
+            if (nextOpAux[0] != null){
+                aux.push(nextOpAux[0]);
+                nextOpAux[0] =null;
+            }
+            if (nextOpAux[2] != null){
+                aux.push(nextOpAux[2]);
+                nextOpAux[2] =null;
+            }
+            if (nextOpAux[1] != null){
+                aux.push(nextOpAux[1]);
+                nextOpAux[1] =null;
+            }
+            if (nextOp!= null){
+                aux.push(nextOp);
+            }
+        }
+        aux.push("=");
 
         while(!operacao.isEmpty()){
-            if(isOperator(operacao.peek())){
+            if(isOperator(aux.peek())){
+                System.out.println("!!");
                 if (operacao.peek().equals("=")){
+                    System.out.println("!");
                     System.out.println(aux.pop());
                     return;
                 }
