@@ -10,7 +10,7 @@ public class Arvore {
         return raiz;
     }
 
-    pulic int menorValor(No node) {
+    public int menorValor(No node) {
         int menorValor = node.valor;
         while (node.esquerda != null) {
             menorValor = node.esquerda.valor;
